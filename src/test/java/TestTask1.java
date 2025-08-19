@@ -1,4 +1,43 @@
-package java;
+package otustest.automation.webdriver;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class TestTask1 {
+
+    private static final Logger logger = LogManager.getLogger(TestTask1.class);
+    private WebDriver driver;
+
+    @BeforeEach
+    public void setUp() {
+        ChromeOptions options = new ChromeOptions().addArguments("--headless=new");
+        this.driver = new ChromeDriver(options);
+    }
+
+    @Test
+    public void testInputField() throws NoSuchElementException {
+        driver.get("https://otus.home.kartushin.su/training.html");
+        driver.findElement(By.id("inputText")).sendKeys("ОТУС");
+
+        String actualValue = driver.findElement(By.id("inputText")).getAttribute("value");
+
+        Assertions.assertEquals("ОТУС", actualValue, "Текст не совпадает!");
+        logger.info("Тест пройден успешно");
+    }
+
+    @AfterEach
+    public void tearDown() {
+        if (this.driver != null) {
+            this.driver.quit();
+        }
+    }
 }
