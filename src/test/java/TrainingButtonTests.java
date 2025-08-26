@@ -3,6 +3,7 @@ package otustest.automation.webdriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -17,11 +18,11 @@ import java.time.Duration;
 public class TrainingButtonTests {
 
     private static final Logger logger = LogManager.getLogger(otustest.automation.webdriver.TrainingButtonTests.class);
-    private static WebDriver driver;
+    private WebDriver driver;
 
     @BeforeAll
-    public static void setup() {
-        WebDriverManager.chromedriver().setup(); // Менеджер драйверов настроит chrome-drive автоматически
+    void setup() {
+        WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions().addArguments("--kiosk"); // Полноэкранный режим
         driver = new ChromeDriver(options);
     }
@@ -37,6 +38,12 @@ public class TrainingButtonTests {
         boolean modalDisplayed = driver.findElement(By.cssSelector(".modal.show")).isDisplayed();
         if (!modalDisplayed) throw new AssertionError("Модальное окно не открыто");
         logger.info("Тест пройден успешно");
+    }
+
+@AfterEach
+void tearDown() {
+    if (driver != null) {
+        driver.quit();
     }
 }
 

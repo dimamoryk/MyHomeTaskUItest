@@ -1,5 +1,6 @@
 package otustest.automation.webdriver;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
@@ -18,7 +19,9 @@ public class TrainingPageTests {
     private WebDriver driver;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
         ChromeOptions options = new ChromeOptions().addArguments("--headless=new");
         this.driver = new ChromeDriver(options);
     }
@@ -34,11 +37,9 @@ public class TrainingPageTests {
         Assertions.assertEquals("ОТУС", actualValue, "Текст не совпадает!");
         logger.info("Тест пройден успешно");
     }
-
     @AfterEach
-    public void tearDown() {
-        if (this.driver != null) {
-            this.driver.quit();
+    void tearDown() {
+        if (driver != null) {
+            driver.quit();
         }
     }
-}
