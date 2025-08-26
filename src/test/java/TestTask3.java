@@ -1,26 +1,29 @@
 package otustest.automation.webdriver;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.Assertions;
 
-import static org.junit.Assert.assertTrue;
+import java.time.Duration;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TestTask3 {
 
     private static final Logger logger = LogManager.getLogger(TestTask3.class);
     private static WebDriver driver;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws Exception {
-        System.setProperty("webdriver.chrome.driver", "/path/to/chromedriver"); // Укажи путь к драйверу
+        System.setProperty("webdriver.chrome.driver", "/Users/yourusername/bin/chromedriver"); // Укажи реальный путь!
 
         // Настраиваем браузер в полноэкранном режиме
         ChromeOptions options = new ChromeOptions().addArguments("--start-maximized");
@@ -37,23 +40,22 @@ public class TestTask3 {
             driver.findElement(By.id("emailField")).sendKeys("igor@example.com");
             driver.findElement(By.id("submitFormButton")).click();
 
-            // Ждем появления элемента и проверяем сообщение
-            String dynamicMessage = driver.findElement(By.id("dynamicMessage")).getText();
-            boolean isCorrect = dynamicMessage.contains("Имя: Игорь Иванов") &&
-                    dynamicMessage.contains("Email: igor@example.com");
+            // Используем ожидание элемента
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dynamicMessage")));
 
-            if (!isCorrect) {
-                throw new AssertionError("Динамическое сообщение неправильное.");
-            }
+            // Проверяем сообщение
+            String dynamicMessage = driver.findElement(By.id("dynamicMessage")).getText();
+            Assertions.assertTrue(dynamicMessage.contains("Имя: Игорь Иванов"), "Проверка имени провалилась");
+            Assertions.assertTrue(dynamicMessage.contains("Email: igor@example.com"), "Проверка email провалилась");
             logger.info("Тест пройден успешно");
-        } catch (NoSuchElementException e) {
-            logger.error("Элемент не найден.", e);
-        } catch (AssertionError e) {
-            logger.error(e.getMessage(), e);
+        } catch (Throwable t) { // Ловим любые ошибки
+            logger.error(t.getMessage(), t); // Регистрируем ошибку
+            Assertions.fail("Ошибка выполнения теста: " + t.getMessage());
         }
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws Exception {
         if (driver != null) {
             driver.quit(); // Закрываем браузер после завершения теста
