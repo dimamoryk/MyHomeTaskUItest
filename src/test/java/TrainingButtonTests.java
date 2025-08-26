@@ -9,10 +9,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class TestTask2 {
+import java.time.Duration;
 
-    private static final Logger logger = LogManager.getLogger(TestTask2.class);
+public class TrainingButtonTests {
+
+    private static final Logger logger = LogManager.getLogger(otustest.automation.webdriver.TrainingButtonTests.class);
     private static WebDriver driver;
 
     @BeforeAll
@@ -24,7 +28,9 @@ public class TestTask2 {
 
     @Test
     public void testOpenModalWindow() {
-        driver.get("https://otus.home.kartushin.su/training.html");
+        driver.get(System.getProperty("app.url", "https://otus.home.kartushin.su/training.html"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".modal.show")));
         driver.findElement(By.id("openModalButton")).click();
 
         // Проверяем наличие модального окна

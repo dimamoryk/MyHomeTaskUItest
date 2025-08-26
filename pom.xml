@@ -10,7 +10,9 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j.version>2.24.1</log4j.version>
-        <junit.jupiter.version>5.10.0</junit.jupiter.version> <!-- Обновляем версию JUnit -->
+        <junit.jupiter.version>5.10.0</junit.jupiter.version>
+        <app.url>https://otus.home.kartushin.su/training.html</app.url>
+
     </properties>
 
     <dependencies>

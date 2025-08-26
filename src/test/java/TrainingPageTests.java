@@ -12,9 +12,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-public class TestTask1 {
+public class TrainingPageTests {
 
-    private static final Logger logger = LogManager.getLogger(TestTask1.class);
+    private static final Logger logger = LogManager.getLogger(otustest.automation.webdriver.TrainingPageTests.class);
     private WebDriver driver;
 
     @BeforeEach
@@ -25,7 +25,8 @@ public class TestTask1 {
 
     @Test
     public void testInputField() throws NoSuchElementException {
-        driver.get("https://otus.home.kartushin.su/training.html");
+        driver.get(System.getProperty("app.url", "https://otus.home.kartushin.su/training.html"));
+
         driver.findElement(By.id("inputText")).sendKeys("ОТУС");
 
         String actualValue = driver.findElement(By.id("inputText")).getAttribute("value");

@@ -16,9 +16,9 @@ import java.time.Duration;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class TestTask3 {
+public class TrainingDynamicMessageTests {
 
-    private static final Logger logger = LogManager.getLogger(TestTask3.class);
+    private static final Logger logger = LogManager.getLogger(otustest.automation.webdriver.TrainingDynamicMessageTests.class);
     private static WebDriver driver;
 
     @BeforeAll
@@ -32,8 +32,9 @@ public class TestTask3 {
 
     @Test
     public void testDynamicMessage() {
-        try {
-            driver.get("https://otus.home.kartushin.su/training.html");
+
+            driver.get(System.getProperty("app.url", "https://otus.home.kartushin.su/training.html"));
+
 
             // Заполняем форму
             driver.findElement(By.id("nameField")).sendKeys("Игорь Иванов");
@@ -49,11 +50,7 @@ public class TestTask3 {
             Assertions.assertTrue(dynamicMessage.contains("Имя: Игорь Иванов"), "Проверка имени провалилась");
             Assertions.assertTrue(dynamicMessage.contains("Email: igor@example.com"), "Проверка email провалилась");
             logger.info("Тест пройден успешно");
-        } catch (Throwable t) { // Ловим любые ошибки
-            logger.error(t.getMessage(), t); // Регистрируем ошибку
-            Assertions.fail("Ошибка выполнения теста: " + t.getMessage());
         }
-    }
 
     @AfterAll
     public static void tearDown() throws Exception {
