@@ -19,7 +19,7 @@ public class TrainingDynamicMessageTests {
     private static final Logger logger = LogManager.getLogger(otustest.automation.webdriver.TrainingDynamicMessageTests.class);
     private WebDriver driver;
 
-    @BeforeAll
+    @BeforeEach
     void setUp() throws Exception {
         System.setProperty("webdriver.chrome.driver", "/Users/yourusername/bin/chromedriver");
         WebDriverManager.chromedriver().setup();
